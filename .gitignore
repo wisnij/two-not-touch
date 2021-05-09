@@ -1,0 +1,9 @@
+# -*- gitignore -*-
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Python
+__pycache__/
