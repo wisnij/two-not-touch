@@ -68,7 +68,7 @@ def main() -> Optional[int]:
         if len(cells) != expected_cells:
             raise RuntimeError(f"{args.image}: found {len(cells)} cells, expected {expected_cells}!")
 
-        locations = locate_cells(regions, cells, args.height)
+        locations = locate_cells(regions, cells, args.height, args.width)
         print()
         for row in locations:
             print(",".join(str(c) for c in row))
@@ -196,7 +196,7 @@ def find_areas(
     return areas
 
 
-def locate_cells(regions: List[Set[Point]], cells: List[Rect], height: int) -> List[List[int]]:
+def locate_cells(regions: List[Set[Point]], cells: List[Rect], height: int, width: int) -> List[List[int]]:
     """Determine which region each cell is located in."""
     if height > 1:
         # sort cells by a lower-resolution version of their coords, to smooth over
@@ -218,7 +218,7 @@ def locate_cells(regions: List[Set[Point]], cells: List[Rect], height: int) -> L
         else:
             raise RuntimeError(f"cell {cell} not found in any region")
 
-    return list(partition_list(locations, height))
+    return list(partition_list(locations, width))
 
 
 def partition_list(l: list, n: int) -> Iterator[list]:
