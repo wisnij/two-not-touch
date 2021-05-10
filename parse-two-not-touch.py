@@ -56,11 +56,10 @@ def main() -> Optional[int]:
     if not puzzles:
         raise RuntimeError(f"{args.image}: no puzzles found!")
 
-    print(f"found {len(puzzles)} puzzle{'' if len(puzzles) == 1 else 's'}")
-    print()
+    print(f"found {len(puzzles)} puzzle{'' if len(puzzles) == 1 else 's'}\n", file=sys.stderr)
 
     for i, puzzle in enumerate(puzzles):
-        print(f"Puzzle #{i+1}:")
+        print(f"Puzzle #{i+1}:", file=sys.stderr)
         puzzle_img = puzzle.extract(img)
 
         regions, cells = parse_puzzle(puzzle_img)
@@ -69,7 +68,7 @@ def main() -> Optional[int]:
             raise RuntimeError(f"{args.image}: found {len(cells)} cells, expected {expected_cells}!")
 
         locations = locate_cells(regions, cells, args.height, args.width)
-        print()
+        print(file=sys.stderr)
         for row in locations:
             print(",".join(str(c) for c in row))
         print()
@@ -114,10 +113,10 @@ def parse_puzzle(img: np.ndarray) -> Tuple[List[Set[Point]], List[Rect]]:
     """Find the regions and grid cells in a single puzzle image."""
     # find large regions by thresholding out the thin grid lines
     regions = find_regions(img)
-    print(f"found {len(regions)} regions")
+    print(f"found {len(regions)} regions", file=sys.stderr)
 
     cells = find_cells(img)
-    print(f"found {len(cells)} grid cells")
+    print(f"found {len(cells)} grid cells", file=sys.stderr)
 
     return regions, cells
 
